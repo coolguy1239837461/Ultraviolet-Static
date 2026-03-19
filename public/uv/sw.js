@@ -1,7 +1,9 @@
-/* Reference the bundle from the same folder */
+/* This is the Ultraviolet Service Worker Engine */
 importScripts('./uv.bundle.js');
 importScripts('./uv.config.js');
-importScripts(__uv$config.sw || './uv.sw.js');
+
+// FIXED: Removed the reference to 'uv.sw.js' which was causing the 404 crash
+importScripts(__uv$config.sw || './sw.js');
 
 const sw = new UVServiceWorker();
 
