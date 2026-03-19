@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const error = document.getElementById("uv-error");
     const errorCode = document.getElementById("uv-error-code");
 
-    // Connect to the CDN worker
-    const connection = new BareMux.BareMuxConnection("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.5.0/dist/worker.js");
+    // 1. UPDATED: Connect to the stable @2 version of the worker
+    const connection = new BareMux.BareMuxConnection("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/worker.js");
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -28,8 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
         frame.style.display = "block";
 
         try {
-            // Use the CDN version of the bare.mjs transport pointing to your Pi
-            await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.5.0/dist/bare.mjs", [{
+            // 2. UPDATED: Use the stable @2 version of the bare.mjs transport
+            // This points directly to your Raspberry Pi via the zrok tunnel
+            await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/bare.mjs", [{
                 bare: "https://raspiultraviolet.share.zrok.io/bare/"
             }]);
 
