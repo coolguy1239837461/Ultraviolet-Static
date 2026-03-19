@@ -6,7 +6,7 @@ const searchEngine = document.getElementById("uv-search-engine");
 const error = document.getElementById("uv-error");
 const errorCode = document.getElementById("uv-error-code");
 
-// 1. UPDATED: Connect to the CDN worker instead of a local file
+// 1. Connect to the CDN worker (Matches your index.html setup)
 const connection = new BareMux.BareMuxConnection("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.5.0/dist/worker.js");
 
 form.addEventListener("submit", async (event) => {
@@ -26,7 +26,7 @@ form.addEventListener("submit", async (event) => {
     frame.style.display = "block";
 
     try {
-        // 2. UPDATED: Use the CDN version of the bare.mjs transport
+        // 2. Points to your Raspberry Pi via the zrok tunnel
         await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.5.0/dist/bare.mjs", [{
             bare: "https://raspiultraviolet.share.zrok.io/bare/"
         }]);
