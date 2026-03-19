@@ -6,8 +6,8 @@ const searchEngine = document.getElementById("uv-search-engine");
 const error = document.getElementById("uv-error");
 const errorCode = document.getElementById("uv-error-code");
 
-// Connect to the Bare-Mux worker
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+// 1. UPDATED: Connect to the CDN worker instead of a local file
+const connection = new BareMux.BareMuxConnection("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.5.0/dist/worker.js");
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -26,9 +26,8 @@ form.addEventListener("submit", async (event) => {
     frame.style.display = "block";
 
     try {
-        // This is the magic part: It tells the frontend to use your Pi's Bare server
-        // instead of looking for a local Netlify backend.
-        await connection.setTransport("/baremux/bare.mjs", [{
+        // 2. UPDATED: Use the CDN version of the bare.mjs transport
+        await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.5.0/dist/bare.mjs", [{
             bare: "https://raspiultraviolet.share.zrok.io/bare/"
         }]);
 
