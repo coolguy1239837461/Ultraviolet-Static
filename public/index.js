@@ -1,41 +1,40 @@
 "use strict";
 
-document.getElementById("uv-form").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("uv-form");
     const address = document.getElementById("uv-address");
     const searchEngine = document.getElementById("uv-search-engine");
     const error = document.getElementById("uv-error");
     const errorCode = document.getElementById("uv-error-code");
-    
-    // Connect to your local 2-line worker.js file
+
+    // Connect to your local worker.js
     const connection = new BareMux.BareMuxConnection("/worker.js");
 
-    try {
-        // 1. Register the Service Worker (sw.js)
-        await registerSW();
-        
-        // 2. Prepare the destination URL
-        const url = search(address.value, searchEngine.value);
-        
-        // 3. Set the Transport to your permanent Pi address
-        // Note: We use the /bare/ endpoint which Ultraviolet-Node provides
-        const bareTarget = "https://raspiultraviolet.share.zrok.io/bare/";
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-        await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/bare.mjs", [{
-            bare: bareTarget
-        }]);
+        try {
+            // 1. Register the Service Worker
+            await registerSW();
+            
+            const url = search(address.value, searchEngine.value);
+            let frame = document.getElementById("uv-frame");
 
-        console.log("Handshake confirmed with: " + bareTarget);
+            // 2. FIXED TRANSPORT: Using the direct BareMux transport class
+            // This avoids the "Failed to fetch dynamically imported module" error
+            await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/bare.mjs", [{
+                bare: "https://raspiultraviolet.share.zrok.io/bare/"
+            }]);
 
-        // 4. Show the frame and load the site
-        let frame = document.getElementById("uv-frame");
-        frame.style.display = "block";
-        frame.src = __uv$config.prefix + __uv$config.encodeUrl(url);
+            console.log("Handshake confirmed with Pi on 8002.");
 
-    } catch (err) {
-        error.textContent = "Failed to connect to the Raspberry Pi.";
-        errorCode.textContent = err.toString();
-        console.error(err);
-    }
+            frame.style.display = "block";
+            frame.src = __uv$config.prefix + __uv$config.encodeUrl(url);
+
+        } catch (err) {
+            error.textContent = "Transport Error: The connection to the Pi failed.";
+            errorCode.textContent = err.toString();
+            console.error(err);
+        }
+    });
 });
