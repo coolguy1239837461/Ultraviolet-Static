@@ -1,6 +1,9 @@
 "use strict";
 
-// This listener ensures the page and CDN scripts are fully loaded before running
+/**
+ * Ensures the page and CDN scripts are fully loaded before executing BareMux logic.
+ * This prevents the "BareMux is not defined" error.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("uv-form");
     const address = document.getElementById("uv-address");
@@ -8,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const error = document.getElementById("uv-error");
     const errorCode = document.getElementById("uv-error-code");
 
-    // 1. UPDATED: Connect to the stable @2 version of the worker
+    // Connect to the stable @2 worker
     const connection = new BareMux.BareMuxConnection("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/worker.js");
 
     form.addEventListener("submit", async (event) => {
@@ -28,8 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
         frame.style.display = "block";
 
         try {
-            // 2. UPDATED: Use the stable @2 version of the bare.mjs transport
-            // This points directly to your Raspberry Pi via the zrok tunnel
+            /**
+             * Sets the transport to your Raspberry Pi via zrok.
+             * We use the stable @2 bare.mjs to match the connection.
+             */
             await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/bare.mjs", [{
                 bare: "https://raspiultraviolet.share.zrok.io/bare/"
             }]);
@@ -38,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             error.textContent = "Failed to set Bare transport.";
             errorCode.textContent = err.toString();
+            console.error(err);
         }
     });
 });
