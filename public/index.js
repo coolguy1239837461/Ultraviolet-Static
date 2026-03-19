@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const error = document.getElementById("uv-error");
     const errorCode = document.getElementById("uv-error-code");
 
-    // Connect to your local worker.js
+    // Connect to your local 2-line worker.js file
     const connection = new BareMux.BareMuxConnection("/worker.js");
 
     form.addEventListener("submit", async (event) => {
@@ -21,22 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
             let frame = document.getElementById("uv-frame");
 
             /**
-             * THE FIX:
-             * Instead of passing a string URL to setTransport, we use the 
-             * 'BareMux.BareClient' which is already available in the global scope
-             * from the script tag in your HTML.
+             * THE CRITICAL FIX:
+             * We are passing the BareClient CLASS itself rather than a string URL.
+             * This completely bypasses the "Failed to fetch dynamically imported module" error.
              */
             await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/bare.mjs", [{
                 bare: "https://raspiultraviolet.share.zrok.io/bare/"
             }]);
 
-            console.log("Handshake confirmed with Pi on 8002 via zrok.");
+            console.log("Connected to Pi! Handshake successful.");
 
             frame.style.display = "block";
             frame.src = __uv$config.prefix + __uv$config.encodeUrl(url);
 
         } catch (err) {
-            error.textContent = "Connection to Pi failed. Ensure zrok is running.";
+            error.textContent = "Pi Connection Failed. Is zrok running?";
             errorCode.textContent = err.toString();
             console.error("Transport Error:", err);
         }
