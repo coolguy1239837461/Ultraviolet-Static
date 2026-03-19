@@ -1,7 +1,7 @@
-// This file overwrites the stock UV config.js
-
 self.__uv$config = {
   prefix: "/uv/service/",
+  /* This connects your Netlify frontend to your Pi */
+  bare: "https://raspiultraviolet.share.zrok.io/bare/", 
   encodeUrl: Ultraviolet.codec.xor.encode,
   decodeUrl: Ultraviolet.codec.xor.decode,
   handler: "/uv/uv.handler.js",
