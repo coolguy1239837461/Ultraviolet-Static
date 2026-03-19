@@ -4,48 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <title>Ultraviolet | TN</title>
-    <meta name="description" content="Ultraviolet is a highly sophisticated proxy used for evading internet censorship." />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#434c5e" />
-    <link rel="shortcut icon" content="favicon.ico" />
     <link rel="stylesheet" href="index.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/index.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.6/dist/uv.bundle.js"></script>
     <script src="uv/uv.config.js"></script>
 
     <script src="register-sw.js" defer></script>
     <script src="search.js" defer></script>
     <script src="index.js" defer></script>
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is Ultraviolet (Web Proxy)?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Highly sophisticated proxy used for evading internet censorship!"
-            }
-          }
-        ]
-      }
-    </script>
   </head>
 
   <body>
-    <div title="Ultraviolet Logo" class="flex-center logo-wrapper header-center">
+    <div class="flex-center logo-wrapper header-center">
       <img class="logo" src="uv.png" alt="Ultraviolet" />
       <h1>Ultraviolet | TN</h1>
     </div>
     
-    <div class="flex-center desc left-margin">
-      <p>Ultraviolet is highly sophisticated proxy used for evading internet censorship.</p>
-    </div>
-
     <form id="uv-form" class="flex-center">
       <input id="uv-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
       <input id="uv-address" type="text" placeholder="Search the web freely" />
@@ -55,17 +30,6 @@
       <p id="uv-error"></p>
       <pre id="uv-error-code"></pre>
     </div>
-
-    <footer>
-      <div>
-        <a href="https://github.com/titaniumnetwork-dev">TitaniumNetwork</a>
-        <a href="https://discord.gg/unblock">Discord</a>
-        <a href="credits.html">Credits</a>
-      </div>
-      <div>
-        <span>Ultraviolet &copy; TN 2026</span>
-      </div>
-    </footer>
 
     <iframe style="display: none;" id="uv-frame"></iframe>
   </body>
