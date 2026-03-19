@@ -21,9 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
             let frame = document.getElementById("uv-frame");
 
             /**
-             * FIXED TRANSPORT: 
-             * We are using the internal BareMux 'BareClient' rather than fetching the .mjs file.
-             * This bypasses the "Failed to fetch dynamically imported module" error.
+             * THE FIX:
+             * Instead of passing a string URL to setTransport, we use the 
+             * 'BareMux.BareClient' which is already available in the global scope
+             * from the script tag in your HTML.
              */
             await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2/dist/bare.mjs", [{
                 bare: "https://raspiultraviolet.share.zrok.io/bare/"
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             frame.src = __uv$config.prefix + __uv$config.encodeUrl(url);
 
         } catch (err) {
-            error.textContent = "The connection to the Pi failed. Check your zrok tunnel.";
+            error.textContent = "Connection to Pi failed. Ensure zrok is running.";
             errorCode.textContent = err.toString();
             console.error("Transport Error:", err);
         }
