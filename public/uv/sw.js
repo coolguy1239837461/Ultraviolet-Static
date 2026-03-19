@@ -1,9 +1,13 @@
-/* Ultraviolet Service Worker Engine */
-try {
-    importScripts('/uv/uv.bundle.js');
-    importScripts('/uv/uv.config.js');
+"use strict";
 
-    // Check if the bundle actually loaded before trying to use it
+/**
+ * Using the full CDN URL to ensure the engine loads 
+ * even if the local file path is being blocked.
+ */
+try {
+    importScripts('https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.6/dist/uv.bundle.js');
+    importScripts('./uv.config.js');
+
     if (typeof UVServiceWorker !== 'undefined') {
         const sw = new UVServiceWorker();
 
@@ -11,7 +15,7 @@ try {
             event.respondWith(sw.fetch(event));
         });
     } else {
-        console.error("Ultraviolet bundle failed to load inside sw.js");
+        console.error("Ultraviolet bundle still failed to load from CDN.");
     }
 } catch (e) {
     console.error("Service Worker Error:", e);
